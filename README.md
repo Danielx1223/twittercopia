@@ -12,4 +12,8 @@ Copy `.env.example` to `.env` and set your environment variables
 
 `npm start`
 
+## Tener en cuenta
+
+La configuración inicial está en la rama configinicial
+
 ##### Elaborado por Daniel Nieto
