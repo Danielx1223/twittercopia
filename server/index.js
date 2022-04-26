@@ -1,18 +1,9 @@
 const express = require('express');
+const api = require('./api/v1');
+
 const app = express();
-// Forma de simplificar tantos get and post
-app
-  .route('/users')
-  .get((req, res, next) => {
-    res.json({
-      message: 'Welcome API usando GET',
-    });
-  })
-  .post((req, res, next) => {
-    res.json({
-      message: 'Welcome API usando POST',
-    });
-  });
+
+app.use('/api/v1', api); // LLamo todo lo que este en api, usando la ruta /api/ y lo que está en la otra carpeta
 
 // Errores
 app.use((req, res, next) => {
