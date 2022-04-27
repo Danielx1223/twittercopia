@@ -3,6 +3,8 @@ const api = require('./api/v1');
 
 const app = express();
 
+app.use(express.json()); // Se encarga de coger los JSON de la petición y guardarla (esta en controllers)
+
 app.use('/api/v1', api); // LLamo todo lo que este en api, usando la ruta /api/ y lo que está en la otra carpeta
 
 // Errores

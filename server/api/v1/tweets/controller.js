@@ -1,4 +1,4 @@
-exports.create = (req, res, next) => {
+exports.all = (req, res, next) => {
   const { query = {} } = req; // metiendo valores
   const { limit = 100, skip = 0 } = query;
   res.json({
@@ -7,11 +7,14 @@ exports.create = (req, res, next) => {
   });
 };
 
-exports.all = (req, res, next) => {
+// Mostrando la info que coloco en postmant desde body.
+exports.create = (req, res, next) => {
+  const { body = {} } = req;
   res.json({
-    message: 'List of Tweets GET',
+    body,
   });
 };
+
 exports.read = (req, res, next) => {
   const { params = {} } = req;
   res.json({
