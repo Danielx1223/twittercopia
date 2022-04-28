@@ -8,7 +8,7 @@ const controller = require('./controller');
 /*
  * /api/v1/tweets        POST   Created
  * /api/v1/tweets        GET    Read all
- * /api/v1/tweets/:id    GET   Read
+ * /api/v1/tweets/:id    GET    Read
  * /api/v1/tweets/:id    PUT    Update
  * /api/v1/tweets/:id    DELETE Delete
  */

@@ -21,11 +21,12 @@ exports.create = (req, res, next) => {
 
 exports.read = (req, res, next) => {
   const { params = {} } = req;
-  const { id = '' } = params;
+  const { id = '' } = params; // const id = params.id
 
   const data = tweets.find(function (item) {
     return item.id === id;
   });
+
   res.json({
     data: {
       id: params.id, // Guardo los valores del id que ponga en la URL en la variable params
