@@ -44,7 +44,5 @@ exports.update = (req, res, next) => {
 };
 
 exports.delete = (req, res, next) => {
-  res.json({
-    message: 'List of Tweets',
-  });
+  res.json({});
 };
