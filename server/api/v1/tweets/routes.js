@@ -16,6 +16,8 @@ const controller = require('./controller');
 // Forma de simplificar tantos get and post
 router.route('/').get(controller.all).post(controller.create);
 
+router.param('id', controller.id); // Acceso directo, Primero es este middelware  y después pasamos a los otros.
+
 router
   .route('/:id')
   .get(controller.read)
