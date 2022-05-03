@@ -30,6 +30,7 @@ exports.read = (req, res, next) => {
   res.json({
     data: {
       id: params.id, // Guardo los valores del id que ponga en la URL en la variable params
+      data,
     },
   });
 };
