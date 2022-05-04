@@ -1,10 +1,34 @@
-const Model = require('./model');
+const { Model, fields } = require('./model'); // extraer el objeto
+const { paginationParseParams, sortParseParams } = require('./../../../utils'); // Queremos extraer el LIMIT Y EL SKIP del query como números.
 
 exports.all = async (req, res, next) => {
+  const { query = {} } = req; // query del URL
+  const { limit, skip } = paginationParseParams(query);
+  const { sortBy, direction } = sortParseParams(query, fields); // encargad ade ordenar
+
   try {
-    const data = await Model.find({}).exec();
+    const [data = [], total = 0] = await Promise.all([
+      Model.find({})
+        .limit(limit)
+        .skip(skip)
+        .sort({
+          [sortBy]: direction, // volver sortby dinamico que quede ejemplo "likes": "asc"
+        })
+        .exec(),
+      Model.countDocuments(),
+    ]);
+    // otra manera de escribir lo de arriba
+    // const data = await Model.find({}).limit(limit).skip(skip).exec();
+    // const total = await Model.countDocuments();
     res.json({
       data,
+      meta: {
+        limit,
+        skip,
+        total,
+        sortBy,
+        direction,
+      },
     });
   } catch (error) {
     next(error);

@@ -17,7 +17,14 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   // errores que siempre pueden salir, es mejor tenerlos siempre por si aca.
-  const { message = ' ', statusCode = 500 } = err; // para darle valor al err.
+  const { message = ' ' } = err; // para darle valor al err.
+  let { statusCode = 500 } = err;
+
+  if (err.name === 'ValidationError') {
+    // Esto es cuando es un error por moongose que es de parte del cliente.
+    statusCode = 400;
+  }
+
   res.status(statusCode); // Esto es meter en un solo middleware
   res.json({
     message,

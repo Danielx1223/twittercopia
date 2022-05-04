@@ -8,6 +8,23 @@ const config = {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
   },
+  pagination: {
+    // cantidad de tweets que quiero ver
+    limit: 10,
+    skip: 0,
+  },
+
+  sort: {
+    // ordenar por campos, ver documentación para ordenar.
+    sortBy: {
+      default: 'createdAt',
+      fields: ['createdAt', 'updatedAt'],
+    },
+    direction: {
+      default: 'desc',
+      options: ['desc', 'asc'],
+    },
+  },
 };
 
 module.exports = config;
