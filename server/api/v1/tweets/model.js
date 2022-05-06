@@ -17,8 +17,17 @@ const fields = {
   },
 };
 
-const tweet = new Schema(fields, {
+const references = {
+  //  ver quien escribió
+  userID: {
+    type: Schema.Types.ObjectId, //  enlazar el usuario con el tweet que publique.
+    ref: 'user',
+    required: true,
+  },
+};
+
+const tweet = new Schema(Object.assign(fields, references), {
   timestamps: true, // pa que nos muestre fecha de creación y edición propio de schema, de la libreria de moongose
 });
 
-module.exports = { Model: mongoose.model('tweet', tweet), fields };
+module.exports = { Model: mongoose.model('tweet', tweet), fields, references };
