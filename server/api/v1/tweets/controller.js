@@ -1,11 +1,14 @@
-const { Model, fields, references } = require('./model'); // extraer el objeto
+const { Model, fields, references, virtuals } = require('./model'); // extraer el objeto
 const { paginationParseParams, sortParseParams } = require('./../../../utils'); // Queremos extraer el LIMIT Y EL SKIP del query como números.
 
 exports.all = async (req, res, next) => {
   const { query = {} } = req; // query del URL
   const { limit, skip } = paginationParseParams(query);
   const { sortBy, direction } = sortParseParams(query, fields); // encargad ade ordenar
-  const populate = Object.getOwnPropertyNames(references).join(' '); // sacar array de las propiedades de un objeto
+  const populate = [
+    ...Object.getOwnPropertyNames(references),
+    ...Object.getOwnPropertyNames(virtuals),
+  ].join(' '); // sacar array de las propiedades de un objeto
 
   try {
     const [data = [], total = 0] = await Promise.all([

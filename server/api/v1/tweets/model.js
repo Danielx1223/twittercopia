@@ -26,8 +26,27 @@ const references = {
   },
 };
 
+const virtuals = {
+  comments: {
+    // Estoy trayendo los comentarios y comparando el _id con el tweetID
+    ref: 'comment',
+    localField: '_id',
+    foreignField: 'tweetID', // OKO QUE ID ESTA EN MAYUSCULA Y EL PROFE LO PONE CON MINUSCULA
+  },
+};
+
 const tweet = new Schema(Object.assign(fields, references), {
   timestamps: true, // pa que nos muestre fecha de creación y edición propio de schema, de la libreria de moongose
+  toJSON: {
+    virtuals: true,
+  },
 });
 
-module.exports = { Model: mongoose.model('tweet', tweet), fields, references };
+tweet.virtual('comments', virtuals.comments);
+
+module.exports = {
+  Model: mongoose.model('tweet', tweet),
+  fields,
+  references,
+  virtuals,
+};

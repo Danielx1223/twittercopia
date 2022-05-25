@@ -1,7 +1,12 @@
+require('dotenv').config({ path: './.env' }); // para llamar al .env
 const express = require('express');
+const cors = require('cors');
+
 const api = require('./api/v1');
 
 const app = express();
+
+app.use(cors({ origin: '*' })); // Todos desde otro dominio se pueden conectar a mi API
 
 app.use(express.json()); // Se encarga de coger los JSON de la petición y guardarla (esta en controllers)
 

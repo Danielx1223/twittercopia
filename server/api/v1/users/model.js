@@ -37,6 +37,14 @@ const fields = {
 
 const user = new Schema(fields, {
   timestamps: true, // pa que nos muestre fecha de creación y edición propio de schema, de la libreria de moongose
+  toJSON: {
+    virtuals: true,
+  },
+});
+
+user.virtual('name').get(function () {
+  // creando el virtual que es la union del nombre y last name
+  return this.firstname + ' ' + this.lastname;
 });
 
 module.exports = { Model: mongoose.model('user', user), fields };
