@@ -1,5 +1,6 @@
 const { Model, fields } = require('./model'); // extraer el objeto
 const { paginationParseParams, sortParseParams } = require('./../../../utils'); // Queremos extraer el LIMIT Y EL SKIP del query como números.
+const { signToken } = require('../auth');
 
 exports.all = async (req, res, next) => {
   const { query = {} } = req; // query del URL
@@ -35,8 +36,39 @@ exports.all = async (req, res, next) => {
   }
 };
 
+exports.signin = async (req, res, next) => {
+  const { body = {} } = req;
+  const { username = '', password = '' } = body;
+
+  const document = await Model.findOne({ username }); // PARA RECTIFICAR NOMBRE Y CONTRASEÑA
+  if (document) {
+    const verified = await document.verifyPassword(password);
+    if (verified) {
+      const payload = {
+        id: document._id,
+      };
+      const token = signToken(payload);
+
+      res.json({
+        data: document,
+        meta: {
+          token,
+        },
+      });
+    } else {
+      next({
+        message: 'Username or password are incorrect',
+      });
+    }
+  } else {
+    next({
+      message: 'Username or password are incorrect',
+    });
+  }
+};
+
 // Mostrando la info que coloco en postmant desde body.
-exports.create = async (req, res, next) => {
+exports.signup = async (req, res, next) => {
   const { body = {} } = req;
 
   const document = new Model(body); // Document variable de toda base de dato y new nuevo. (libreria)

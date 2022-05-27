@@ -42,9 +42,13 @@ exports.all = async (req, res, next) => {
 
 // Mostrando la info que coloco en postmant desde body.
 exports.create = async (req, res, next) => {
-  const { body = {} } = req;
+  const { body = {}, decoded = {} } = req;
+  const { id } = decoded;
 
-  const document = new Model(body); // Document variable de toda base de dato y new nuevo. (libreria)
+  const document = new Model({
+    ...body, // Para meter el ID en el document.
+    userID: id,
+  }); // Document variable de toda base de dato y new nuevo. (libreria)
   try {
     const data = await document.save();
     res.status(201); // todo OK pero se agregó algo.
