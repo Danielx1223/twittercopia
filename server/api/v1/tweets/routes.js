@@ -6,6 +6,7 @@ const router = express.Router();
 const controller = require('./controller');
 
 const { auth, owner } = require('../auth');
+const { sanatizers } = require('./model'); //  pa que haga saneamiento y no envien json dentro de un contenido
 
 /*
  * /api/v1/tweets        POST   Created
@@ -16,15 +17,15 @@ const { auth, owner } = require('../auth');
  */
 
 // Forma de simplificar tantos get and post, para crear un tweet tengo que estar autenticado
-router.route('/').get(controller.all).post(auth, controller.create);
+router.route('/').get(controller.all).post(auth, sanatizers, controller.create);
 
 router.param('id', controller.id); // Acceso directo, Primero es este middelware  y después pasamos a los otros.
 
 router
   .route('/:id')
   .get(controller.read)
-  .put(auth, owner, controller.update)
-  .patch(auth, owner, controller.update)
-  .delete(auth, owner, controller.delete);
+  .put(auth, owner, sanatizers, controller.update)
+  .patch(auth, owner, sanatizers, controller.update)
+  .delete(auth, owner, sanatizers, controller.delete);
 
 module.exports = router;

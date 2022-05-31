@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const { body } = require('express-validator');
 
 const fields = {
   content: {
@@ -35,6 +36,8 @@ const virtuals = {
   },
 };
 
+const sanatizers = [body('content').escape()];
+
 const tweet = new Schema(Object.assign(fields, references), {
   timestamps: true, // pa que nos muestre fecha de creación y edición propio de schema, de la libreria de moongose
   toJSON: {
@@ -49,4 +52,5 @@ module.exports = {
   fields,
   references,
   virtuals,
+  sanatizers,
 };
